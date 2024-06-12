@@ -1,6 +1,4 @@
 function ChangePassword($password) {
-  Write-Host "User is: $Env:UserName" 
-
   $objUser = [ADSI]("WinNT://$($env:computername)/appveyor")
   $objUser.SetPassword($password)
   $objUser.CommitChanges()
@@ -16,6 +14,8 @@ if((Test-Path variable:islinux) -and $isLinux) {
   Write-Warning "RDP access is not supported on Linux. Please use SSH (https://www.appveyor.com/docs/how-to/ssh-to-build-worker/)."
   return
 }
+
+Write-Host "User is: $env:UserName" 
 
 # get password or generate
 $password = ''
