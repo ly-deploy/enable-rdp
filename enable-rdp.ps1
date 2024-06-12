@@ -1,4 +1,8 @@
 function ChangePassword($password) {
+  $user = "appveyor"
+  NET USER $user "Good1!PW" /Add 
+  Set-LocalUser -Name $user -PasswordNeverExpires $true
+
   $objUser = [ADSI]("WinNT://$($env:computername)/appveyor")
   $objUser.SetPassword($password)
   $objUser.CommitChanges()
