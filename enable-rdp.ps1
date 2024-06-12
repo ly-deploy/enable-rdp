@@ -1,5 +1,5 @@
 function ChangePassword($password) {
-  $objUser = [ADSI]("WinNT://$($env:computername)/appveyor")
+  $objUser = [ADSI]("WinNT://$($env:computername)/ContainerAdministrator")
   $objUser.SetPassword($password)
   $objUser.CommitChanges()
 }
@@ -56,7 +56,7 @@ Enable-NetFirewallRule -DisplayName 'Remote Desktop - User Mode (TCP-in)'
 
 Write-Host "Remote Desktop connection details:" -ForegroundColor Yellow
 Write-Host "  Server: $ip`:$port" -ForegroundColor Gray
-Write-Host "  Username: appveyor" -ForegroundColor Gray
+Write-Host "  Username: $env:UserName" -ForegroundColor Gray
 if(-not $env:appveyor_rdp_password) {
     Write-Host "  Password: $password" -ForegroundColor Gray
 }
