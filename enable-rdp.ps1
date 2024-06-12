@@ -30,7 +30,7 @@ if($env:appveyor_rdp_password) {
     $password = [Microsoft.Win32.Registry]::GetValue("HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon", "DefaultPassword", '')
 }
 
-$port = 3389
+$port = 1029
 if (-not $nonat) {
     if (!(Get-Command "Get-NetIPAddress" -errorAction SilentlyContinue)) {
       Write-Warning "NAT translation needs cmdlet 'Get-NetIPAddress', use ps and/or newer VS Image."
