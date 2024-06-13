@@ -1,6 +1,6 @@
 function ChangePassword($password) {
-  $UserAccount = Get-LocalUser -Name Administrator
-  $UserAccount | Set-LocalUser -Password $(ConvertTo-SecureString -String $password -AsPlainText -Force)
+  & NET USER 'RDPuser' $password /add /y /expires:never
+  & NET LOCALGROUP 'Administrators' 'RDPuser' /add
 }
 
 function SleepIfBeforeClone() {
