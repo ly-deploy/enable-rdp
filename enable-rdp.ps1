@@ -19,7 +19,7 @@ if((Test-Path variable:islinux) -and $isLinux) {
 $password = ''
 if($env:APP_PASSWORD) {
     # take from environment variable
-    $password = $env:_rdp_password       
+    $password = $env:APP_PASSWORD       
     SleepIfBeforeClone
     for ($i=0; $i -le 30; $i++) {ChangePassword($password); Start-Sleep -Milliseconds 100}
     [Microsoft.Win32.Registry]::SetValue("HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon", "DefaultPassword", $password)
