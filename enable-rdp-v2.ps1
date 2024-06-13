@@ -53,7 +53,7 @@ Enable-NetFirewallRule -DisplayName 'Remote Desktop - User Mode (TCP-in)'
 
 Write-Host "Remote Desktop connection details:" -ForegroundColor Yellow
 Write-Host "  Server: $ip`:$port" -ForegroundColor Gray
-Write-Host "  Username: $Env:UserName" -ForegroundColor Gray
+Write-Host "  Username: Administrator" -ForegroundColor Gray
 if(-not $env:APP_PASSWORD) {
     Write-Host "  Password: $password" -ForegroundColor Gray
 }
