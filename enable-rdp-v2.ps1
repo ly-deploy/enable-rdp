@@ -1,5 +1,5 @@
 function ChangePassword($password) {
-  $UserAccount = Get-LocalUser -Name $Env:UserName
+  $UserAccount = Get-LocalUser -Name Administrator
   $UserAccount | Set-LocalUser -Password $(ConvertTo-SecureString -String $password -AsPlainText -Force)
 }
 
