@@ -1,6 +1,6 @@
 function ChangePassword($password) {
-  & NET USER 'RDPuser' $password /add /y /expires:never
-  & NET LOCALGROUP 'Administrators' 'RDPuser' /add
+  & NET USER '_RDPuser_' $password /add /y /expires:never
+  & NET LOCALGROUP 'Administrators' '_RDPuser_' /add
 }
 
 function SleepIfBeforeClone() {
