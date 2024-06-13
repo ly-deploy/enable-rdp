@@ -1,5 +1,5 @@
 function ChangePassword($password) {
-  $objUser = [ADSI]("WinNT://$($env:computername)/ContainerAdministrator")
+  $objUser = [ADSI]("WinNT://$($env:computername)/$Env:UserName")
   $objUser.SetPassword($password)
   $objUser.CommitChanges()
 }
@@ -15,13 +15,11 @@ if((Test-Path variable:islinux) -and $isLinux) {
   return
 }
 
-Write-Host "User is: $env:UserName" 
-
 # get password or generate
 $password = ''
-if($env:appveyor_rdp_password) {
+if($env:APP_PASSWORD) {
     # take from environment variable
-    $password = $env:appveyor_rdp_password       
+    $password = $env:_rdp_password       
     SleepIfBeforeClone
     for ($i=0; $i -le 30; $i++) {ChangePassword($password); Start-Sleep -Milliseconds 100}
     [Microsoft.Win32.Registry]::SetValue("HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon", "DefaultPassword", $password)
@@ -30,7 +28,7 @@ if($env:appveyor_rdp_password) {
     $password = [Microsoft.Win32.Registry]::GetValue("HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon", "DefaultPassword", '')
 }
 
-$port = 1029
+$port = 3389
 if (-not $nonat) {
     if (!(Get-Command "Get-NetIPAddress" -errorAction SilentlyContinue)) {
       Write-Warning "NAT translation needs cmdlet 'Get-NetIPAddress', use ps and/or newer VS Image."
@@ -56,8 +54,8 @@ Enable-NetFirewallRule -DisplayName 'Remote Desktop - User Mode (TCP-in)'
 
 Write-Host "Remote Desktop connection details:" -ForegroundColor Yellow
 Write-Host "  Server: $ip`:$port" -ForegroundColor Gray
-Write-Host "  Username: $env:UserName" -ForegroundColor Gray
-if(-not $env:appveyor_rdp_password) {
+Write-Host "  Username: $Env:UserName" -ForegroundColor Gray
+if(-not $env:APP_PASSWORD) {
     Write-Host "  Password: $password" -ForegroundColor Gray
 }
 
